@@ -2122,7 +2122,8 @@ func markSchemaErrorKey(err error, key string) error {
 	var me multiErrorForOneOf
 
 	if errors.As(err, &me) {
-		err = me.Unwrap()
+		origin := me.Unwrap()
+		_ = markSchemaErrorKey(origin, key)
 	}
 
 	if v, ok := err.(*SchemaError); ok {
